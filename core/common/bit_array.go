@@ -37,6 +37,10 @@ func NewBitArray(size uint32) *BitArray {
 	return &BitArray{make([]uint32, ((size + 31) / 32)), size}
 }
 
+func NewBitArrayTesting(bits []uint32, size uint32) *BitArray {
+	return &BitArray{bits, size}
+}
+
 func (ba *BitArray) GetSize() uint32 {
 	return ba.size
 }
@@ -265,20 +269,22 @@ func (ba *BitArray) GetBitArray() []uint32 {
 }
 
 func (ba *BitArray) Reverse() {
-	newBits := make([]uint32, len(ba.bits))
+	var newBits []uint32
+	var leng, oldBitsLen, x uint32
+	newBits = make([]uint32, len(ba.bits))
 
-	len := ((ba.size - 1) / 32)
-	oldBitsLen := len + 1
+	leng = ((ba.size - 1) / 32)
+	oldBitsLen = leng + 1
 
 	for i := uint32(0); i < oldBitsLen; i++ {
-		x := ba.bits[i]
+		x = ba.bits[i]
 
 		x = (((x >> 1) & 0x55555555) | ((x & 0x55555555) << 1))
 		x = (((x >> 2) & 0x33333333) | ((x & 0x33333333) << 2))
 		x = (((x >> 4) & 0x0F0F0F0F) | ((x & 0x0F0F0F0F) << 4))
 		x = (((x >> 8) & 0x00FF00FF) | ((x & 0x00FF00FF) << 8))
 		x = (((x >> 16) & 0x0000FFFF) | ((x & 0x0000FFFF) << 16))
-		newBits[len-i] = x
+		newBits[leng-i] = x
 	}
 
 	if ba.size != (oldBitsLen * 32) {
@@ -288,13 +294,14 @@ func (ba *BitArray) Reverse() {
 			nextInt := newBits[i]
 			currentInt |= (nextInt << (32 - leftOffset))
 			newBits[i-1] = currentInt
+			currentInt = (nextInt >> leftOffset)
 		}
 		newBits[oldBitsLen-1] = currentInt
 	}
 	ba.bits = newBits
 }
 
-func (ba *BitArray) Equals(other BitArray) bool {
+func (ba *BitArray) Equals(other *BitArray) bool {
 	if ba.size != other.size {
 		return false
 	}

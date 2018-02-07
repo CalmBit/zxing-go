@@ -24,7 +24,7 @@ import (
 	"github.com/discesoft/zxing-go/core/internal"
 )
 
-func TestGetSet(t *testing.T) {
+func TestBitMatrix_GetSet(t *testing.T) {
 	matrix, err := common.NewBitMatrixFromDimension(33)
 	internal.AssertSuccess(t, err)
 	internal.AssertEquals(t, uint32(33), matrix.GetHeight(), "matrix initialized with height "+strconv.Itoa(int(matrix.GetHeight()))+" instead of 33")
@@ -46,7 +46,7 @@ func TestGetSet(t *testing.T) {
 	}
 }
 
-func TestSetRegion(t *testing.T) {
+func TestBitMatrix_SetRegion(t *testing.T) {
 	matrix, err := common.NewBitMatrixFromDimension(5)
 	internal.AssertSuccess(t, err)
 	err = matrix.SetRegion(1, 1, 3, 3)
@@ -62,7 +62,7 @@ func TestSetRegion(t *testing.T) {
 	}
 }
 
-func TestEnclosing(t *testing.T) {
+func TestBitMatrix_Enclosing(t *testing.T) {
 	matrix, err := common.NewBitMatrixFromDimension(5)
 	internal.AssertSuccess(t, err)
 	b := matrix.GetEnclosingRectangle()
@@ -75,7 +75,7 @@ func TestEnclosing(t *testing.T) {
 	internal.AssertSlicesEqualU32(t, []uint32{0, 0, 5, 5}, matrix.GetEnclosingRectangle(), "enclosing rectangle was not equal to {0,0,5,5}")
 }
 
-func TestOnBit(t *testing.T) {
+func TestBitMatrix_OnBit(t *testing.T) {
 	matrix, err := common.NewBitMatrixFromDimension(5)
 	internal.AssertSuccess(t, err)
 	internal.AssertNil(t, matrix.GetTopLeftOnBit(), "top left on bit not nil on init")
@@ -92,7 +92,7 @@ func TestOnBit(t *testing.T) {
 
 }
 
-func TestRectangularMatrix(t *testing.T) {
+func TestBitMatrix_RectangularMatrix(t *testing.T) {
 	matrix, err := common.NewBitMatrix(75, 20)
 	internal.AssertSuccess(t, err)
 	internal.AssertEquals(t, uint32(75), matrix.GetWidth(), "matrix width not 75")
@@ -104,20 +104,20 @@ func TestRectangularMatrix(t *testing.T) {
 	matrix.Flip(74, 4)
 	matrix.Flip(0, 5)
 
-	internal.AssertEquals(t, true, matrix.Get(10, 0), "value at {10,0} not true")
-	internal.AssertEquals(t, true, matrix.Get(11, 1), "value at {11,1} not true")
-	internal.AssertEquals(t, true, matrix.Get(50, 2), "value at {50,2} not true")
-	internal.AssertEquals(t, true, matrix.Get(51, 3), "value at {51,3} not true")
-	internal.AssertEquals(t, true, matrix.Get(74, 4), "value at {74,4} not true")
-	internal.AssertEquals(t, true, matrix.Get(0, 5), "value at {0,5} not true")
+	internal.AssertTrue(t, matrix.Get(10, 0), "value at {10,0} not true")
+	internal.AssertTrue(t, matrix.Get(11, 1), "value at {11,1} not true")
+	internal.AssertTrue(t, matrix.Get(50, 2), "value at {50,2} not true")
+	internal.AssertTrue(t, matrix.Get(51, 3), "value at {51,3} not true")
+	internal.AssertTrue(t, matrix.Get(74, 4), "value at {74,4} not true")
+	internal.AssertTrue(t, matrix.Get(0, 5), "value at {0,5} not true")
 
 	matrix.Flip(50, 2)
 	matrix.Flip(51, 3)
-	internal.AssertEquals(t, false, matrix.Get(50, 2), "value at {50,2} didn't flip off")
-	internal.AssertEquals(t, false, matrix.Get(51, 3), "value at {51,3} didn't flip off")
+	internal.AssertFalse(t, matrix.Get(50, 2), "value at {50,2} didn't flip off")
+	internal.AssertFalse(t, matrix.Get(51, 3), "value at {51,3} didn't flip off")
 }
 
-func TestRectangularSetRegion(t *testing.T) {
+func TestBitMatrix_RectangularSetRegion(t *testing.T) {
 	matrix, err := common.NewBitMatrix(320, 240)
 	internal.AssertSuccess(t, err)
 	internal.AssertEquals(t, uint32(320), matrix.GetWidth(), "matrix width not 320")
@@ -131,7 +131,7 @@ func TestRectangularSetRegion(t *testing.T) {
 	}
 }
 
-func TestGetRow(t *testing.T) {
+func TestBitMatrix_GetRow(t *testing.T) {
 	matrix, err := common.NewBitMatrix(102, 5)
 	internal.AssertSuccess(t, err)
 	for x := uint32(0); x < 102; x++ {
@@ -159,7 +159,7 @@ func TestGetRow(t *testing.T) {
 	}
 }
 
-func TestRotate180Simple(t *testing.T) {
+func TestBitMatrix_Rotate180Simple(t *testing.T) {
 	matrix, err := common.NewBitMatrix(3, 3)
 	internal.AssertSuccess(t, err)
 	matrix.Set(0, 0)
@@ -169,20 +169,20 @@ func TestRotate180Simple(t *testing.T) {
 
 	internal.AssertSuccess(t, matrix.Rotate180())
 
-	internal.AssertEquals(t, true, matrix.Get(2, 2), "flip: {2,2} was false")
-	internal.AssertEquals(t, true, matrix.Get(2, 1), "flip: {2,1} was false")
-	internal.AssertEquals(t, true, matrix.Get(1, 0), "flip: {1,0} was false")
-	internal.AssertEquals(t, true, matrix.Get(0, 1), "flip: {0,1} was false")
+	internal.AssertTrue(t, matrix.Get(2, 2), "flip: {2,2} was false")
+	internal.AssertTrue(t, matrix.Get(2, 1), "flip: {2,1} was false")
+	internal.AssertTrue(t, matrix.Get(1, 0), "flip: {1,0} was false")
+	internal.AssertTrue(t, matrix.Get(0, 1), "flip: {0,1} was false")
 }
 
-func TestRotate180(t *testing.T) {
+func TestBitMatrix_Rotate180(t *testing.T) {
 	testRotate180(t, 7, 4)
 	testRotate180(t, 7, 5)
 	testRotate180(t, 8, 4)
 	testRotate180(t, 8, 5)
 }
 
-func TestParse(t *testing.T) {
+func TestBitMatrix_Parse(t *testing.T) {
 	var fullMatrix, centerMatrix, emptyMatrix24 *common.BitMatrix
 
 	emptyMatrix, err := common.NewBitMatrix(3, 3)
@@ -235,7 +235,7 @@ func TestParse(t *testing.T) {
 	assertMatrixEquality(t, centerMatrix, result)
 }
 
-func TestUnset(t *testing.T) {
+func TestBitMatrix_Unset(t *testing.T) {
 	emptyMatrix, err := common.NewBitMatrix(3, 3)
 	internal.AssertSuccess(t, err)
 	matrix := emptyMatrix.Clone()
@@ -247,7 +247,7 @@ func TestUnset(t *testing.T) {
 	assertMatrixEquality(t, emptyMatrix, matrix)
 }
 
-func TestXOR(t *testing.T) {
+func TestBitMatrix_XOR(t *testing.T) {
 	emptyMatrix, err := common.NewBitMatrix(3, 3)
 	internal.AssertSuccess(t, err)
 
@@ -296,11 +296,11 @@ func testXor(t *testing.T, dataMatrix, flipMatrix, expectedMatrix *common.BitMat
 }
 
 func assertMatrixInequality(t *testing.T, a, b *common.BitMatrix) {
-	internal.AssertEquals(t, false, a.Equals(b), "matrix equality detected")
+	internal.AssertFalse(t, a.Equals(b), "matrix equality detected")
 }
 
 func assertMatrixEquality(t *testing.T, a, b *common.BitMatrix) {
-	internal.AssertEquals(t, true, a.Equals(b), "matrix inequality detected")
+	internal.AssertTrue(t, a.Equals(b), "matrix inequality detected")
 }
 
 func testRotate180(t *testing.T, width, height uint32) {

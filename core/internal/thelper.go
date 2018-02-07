@@ -5,6 +5,18 @@ import (
 	"testing"
 )
 
+func AssertTrue(t *testing.T, a bool, msg string) {
+	if !a {
+		t.Fatal(msg)
+	}
+}
+
+func AssertFalse(t *testing.T, a bool, msg string) {
+	if a {
+		t.Fatal(msg)
+	}
+}
+
 func AssertEquals(t *testing.T, a, b interface{}, msg string) {
 	if a != b {
 		t.Fatal(msg)
