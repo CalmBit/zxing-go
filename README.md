@@ -2,8 +2,9 @@ zxing-go
 ==========
 
 [![Travis](https://img.shields.io/travis/discesoft/zxing-go.svg?style=flat-square)](https://travis-ci.org/discesoft/zxing-go)
-[![GitHub release](https://img.shields.io/github/release/discesoft/zxing-go.svg?style=flat-square)](https://github.com/discesoft/zxing-go/releases)
+[![Codecov](https://img.shields.io/codecov/c/github/discesoft/zxing-go.svg?style=flat-square)](https://codecov.io/gh/discesoft/zxing-go)
 [![Codacy grade](https://img.shields.io/codacy/grade/b9ba456130484ec2838e06dfd7337cf8.svg?style=flat-square)](https://www.codacy.com/app/CalmBit/zxing-go)
+[![GitHub release](https://img.shields.io/github/release/discesoft/zxing-go.svg?style=flat-square)](https://github.com/discesoft/zxing-go/releases)
 
 This is a direct port of the Java version of [zxing](https://github.com/zxing/zxing/) into Go.
 
