@@ -17,8 +17,11 @@
 package common
 
 import (
+	"bytes"
 	"errors"
 	"math/bits"
+
+	"github.com/discesoft/zxing-go/core/internal"
 )
 
 type BitArray struct {
@@ -281,7 +284,7 @@ func (ba *BitArray) Reverse() {
 	if ba.size != (oldBitsLen * 32) {
 		leftOffset := ((oldBitsLen * 32) - ba.size)
 		currentInt := newBits[0] >> leftOffset
-		for i := uint32(0); i < oldBitsLen; i++ {
+		for i := uint32(1); i < oldBitsLen; i++ {
 			nextInt := newBits[i]
 			currentInt |= (nextInt << (32 - leftOffset))
 			newBits[i-1] = currentInt
@@ -303,4 +306,26 @@ func (ba *BitArray) Equals(other BitArray) bool {
 	}
 
 	return true
+}
+
+func (ba *BitArray) String() string {
+	var result bytes.Buffer
+
+	for i := uint32(0); i < ba.size; i++ {
+		if (i & 0x07) == 0 {
+			result.WriteString(" ")
+		}
+
+		if ba.Get(i) {
+			result.WriteString("X")
+		} else {
+			result.WriteString(".")
+		}
+	}
+
+	return result.String()
+}
+
+func (ba *BitArray) Clone() *BitArray {
+	return &BitArray{internal.SliceCloneU32(ba.bits), ba.size}
 }
