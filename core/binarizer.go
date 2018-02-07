@@ -16,7 +16,7 @@
 
 package core
 
-import "github.com/CalmBit/zxing-go/core/common"
+import "github.com/discesoft/zxing-go/core/common"
 
 type Binarizer interface {
 	GetLuminanceSource() LuminanceSource
